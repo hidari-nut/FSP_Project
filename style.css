@@ -1,0 +1,17 @@
+.container{
+    margin-left: 2%;
+    width: 50%;
+}
+
+.story{
+    margin-left: 1%;
+}
+
+input[type=text], input[type=password]{
+    margin-bottom: 5px;
+}
+
+table, th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
