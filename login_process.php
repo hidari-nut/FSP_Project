@@ -17,7 +17,6 @@ if (isset($_POST['submit'])) {
         $name = "";
         $salt = $userdetails['salt'];
         $actual_pass = $userdetails['password'];
-
         $iterations = 1000;
         $saltedpass = $password . $salt;
         $finalpass = hash_pbkdf2("sha256", $password, $salt, $iterations, 64);
