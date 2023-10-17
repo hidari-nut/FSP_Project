@@ -5,27 +5,29 @@ session_start();
 $perPage = 3;
 
 // Catch page number
-if (isset($_GET['page']))
-    $page = $_GET['page'];
-else
+if (isset($_GET['page'])) {
+    $page = (int)$_GET['page'];
+} else {
     $page = 1;
+}
 
-if (!is_numeric($page))
+if (!is_numeric($page) || $page < 1) {
     $page = 1;
+}
 
 $start = ($page - 1) * $perPage;
 
 // Catch sent Search keyword
-if (isset($_GET['search']))
-    $search = $_GET['search'];
-else
+if (isset($_GET['search'])) {
+    $search = '%' . $_GET['search'] . '%'; // Add '%' to search for partial matches
+} else {
     $search = '';
+}
 
 function getMovie($search = "%")
 {
     $con = new mysqli("localhost", "root", "", "fspdb");
-    $sql = "SELECT * FROM cerita
-        WHERE judul LIKE ?";
+    $sql = "SELECT * FROM cerita WHERE judul LIKE ?";
     $statement = $con->prepare($sql);
     $statement->bind_param("s", $search);
     $statement->execute();
@@ -33,12 +35,11 @@ function getMovie($search = "%")
 
     return $result;
 }
+
 function getMovieLimit($search = "%", $start = 0, $perPage = 3)
 {
     $con = new mysqli("localhost", "root", "", "fspdb");
-    $sql = "SELECT c.idcerita, c.judul, u.nama FROM cerita as c 
-    INNER JOIN users as u on c.idusers = u.idusers
-    WHERE judul LIKE ? LIMIT ?,?";
+    $sql = "SELECT c.idcerita, c.judul, u.nama FROM cerita as c INNER JOIN users as u on c.idusers = u.idusers WHERE judul LIKE ? LIMIT ?, ?";
     $statement = $con->prepare($sql);
     $statement->bind_param("sii", $search, $start, $perPage);
     $statement->execute();
@@ -48,19 +49,21 @@ function getMovieLimit($search = "%", $start = 0, $perPage = 3)
 }
 
 $checkSearch = $search;
-if($search = ''){
+
+if ($search == '') {
     $checkSearch = "%";
 }
+
 $result = getMovie($checkSearch);
 $totalData = $result->num_rows;
 $totalPage = ceil($totalData / $perPage);
-
 ?>
+
 <link rel="stylesheet" href="style.css">
 <div class="container">
     <form action="home.php" method="get">
         Search Title: <input type="text" name="search">
-        <input type="submit" name="submit" value="Search">
+        <input type="submit" name="submit" value="search">
     </form>
 
     <form action="insertstory.php" method="get">
@@ -75,9 +78,10 @@ $totalPage = ceil($totalData / $perPage);
         </tr>
 
         <?php
-
+       
         if ($search != '') {
             $search = $_GET['search'];
+            $search = '%'.$search.'%';
             $result = getMovieLimit($search, $start, $perPage);
         } else {
             $search = '%';
@@ -96,15 +100,13 @@ $totalPage = ceil($totalData / $perPage);
             echo "<td>";
             echo $author;
             echo "</td>";
-            
+
             echo "<td>";
             echo "<a href='readstory.php?idcerita=$idcerita'>Lihat Cerita</a>";
             echo "</td>";
             echo "</tr>";
         }
-
         ?>
-
     </table>
 
     <?php
@@ -117,15 +119,12 @@ $totalPage = ceil($totalData / $perPage);
     $endpage = $startpage + 3;
 
     if ($totalPage < ($startpage + 3)) {
-        $startpage = $totalPage - 3;
-        if (($totalPage - 3) < 1) {
-            $startpage = 1;
-        }
+        $startpage = max($totalPage - 3, 1);
         $endpage = $totalPage;
     }
 
-    for ($i = $startpage; $i < ($endpage + 1); $i++) {
-        echo "<a href='home.php?page=$i&seach=$search'>$i</a>";
+    for ($i = $startpage; $i <= $endpage; $i++) {
+        echo "<a href='home.php?page=$i&search=$search'> | $i | </a>";
     }
     ?>
 
