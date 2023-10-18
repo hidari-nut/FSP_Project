@@ -19,7 +19,7 @@ $start = ($page - 1) * $perPage;
 
 // Catch sent Search keyword
 if (isset($_GET['search'])) {
-    $search = '%' . $_GET['search'] . '%'; // Add '%' to search for partial matches
+    $search = $_GET['search']; // Add '%' to search for partial matches
 } else {
     $search = '';
 }
@@ -81,8 +81,8 @@ $totalPage = ceil($totalData / $perPage);
        
         if ($search != '') {
             $search = $_GET['search'];
-            $search = '%'.$search.'%';
-            $result = getMovieLimit($search, $start, $perPage);
+            $searchquery = '%'.$search.'%';
+            $result = getMovieLimit($searchquery, $start, $perPage);
         } else {
             $search = '%';
             $result = getMovieLimit($search, $start, $perPage);
