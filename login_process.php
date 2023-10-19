@@ -1,33 +1,18 @@
 <?php
-
-require_once("connect.php");
+require("users.php");
 session_start();
 
 if (isset($_POST['submit'])) {
     $iduser = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE idusers=?";
-    $statement = $con->prepare($sql);
-    $statement->bind_param("s", $iduser);
-    $statement->execute();
-    $result = $statement->get_result();
+    $users = new Users($iduser, $password);
+    $name = $users->login();
 
-    if ($userdetails = $result->fetch_assoc()) {
-
-        $name = "";
-        $salt = $userdetails['salt'];
-        $actual_pass = $userdetails['password'];
-        $iterations = 1000;
-        $saltedpass = $password . $salt;
-        $finalpass = hash_pbkdf2("sha256", $password, $salt, $iterations, 64);
-
-        if ($actual_pass == $finalpass) {
-            $name = $userdetails['nama'];
-
-            $_SESSION['iduser'] = $iduser;
-            $_SESSION['name'] = $name;
-            header("Location: home.php");
+    if($name){
+        $_SESSION['iduser'] = $iduser;
+        $_SESSION['name'] = $name;
+        header("Location: home.php");
 
             // echo "<form action='home.php' method='post' id='form-user-details'>";
             // echo "<input type='hidden' id='iduser' name='iduser' value='$iduser'>";
@@ -46,15 +31,6 @@ if (isset($_POST['submit'])) {
             echo "document.getElementById('form-return').submit();";
             echo "</script>";
         }
-    } else {
-        echo "<form action='index.php' method='post' id='form-return'>";
-        echo "<input type='hidden' id='incorrect-cred' name='incorrect-cred' value='True'>";
-        echo "</form>";
-
-        echo "<script type='text/javascript'>";
-        echo "document.getElementById('form-return').submit();";
-        echo "</script>";
-    }
 } else {
     header("Location: index.php");
     exit();

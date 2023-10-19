@@ -1,5 +1,5 @@
 <?php
-require_once("connect.php");
+require("cerita.php");
 session_start();
 
 if (!isset($_GET['idcerita'])) {
@@ -9,13 +9,8 @@ if (!isset($_GET['idcerita'])) {
     $idcerita = $_GET['idcerita'];
     $cerita_paragraphs = [];
 
-    $sql = "SELECT c.judul, p.isi_paragraf FROM cerita as c
-    INNER JOIN paragraf as p ON c.idcerita = p.idcerita
-    WHERE c.idcerita=?";
-    $statement = $con->prepare($sql);
-    $statement->bind_param("i", $idcerita);
-    $statement->execute();
-    $result = $statement->get_result();
+    $story = new Cerita($idcerita);
+    $result = $story->readStory();
     $title = "";
     while ($row = $result->fetch_assoc()) {
         $title = $row['judul'];
@@ -35,9 +30,6 @@ if (!isset($_GET['idcerita'])) {
                 echo "</p>";
             }
         ?>
-        <!-- Placeholders -->
-        <!-- <p>Paragraph 1</p>
-        <p>Paragraph 2</p> -->
     </div>
 
     <br>

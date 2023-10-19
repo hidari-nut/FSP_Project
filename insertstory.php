@@ -1,5 +1,4 @@
 <?php
-require_once("connect.php");
 session_start();
 ?>
 <link rel="stylesheet" href="style.css">
@@ -16,9 +15,4 @@ session_start();
         <br><br>
         <input type="submit" id="post" name="post" value="Post">
     </form>
-
-    <form action="home.php" method="post">
-        <input type="submit" name="back" value="Back">
-    </form>
-
 </div>

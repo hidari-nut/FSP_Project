@@ -1,5 +1,5 @@
 <?php
-require_once("connect.php");
+require("cerita.php");
 session_start();
 
 $perPage = 3;
@@ -24,37 +24,14 @@ if (isset($_GET['search'])) {
     $search = '';
 }
 
-function getMovie($search = "%")
-{
-    $con = new mysqli("localhost", "root", "", "fspdb");
-    $sql = "SELECT * FROM cerita WHERE judul LIKE ?";
-    $statement = $con->prepare($sql);
-    $statement->bind_param("s", $search);
-    $statement->execute();
-    $result = $statement->get_result();
-
-    return $result;
-}
-
-function getMovieLimit($search = "%", $start = 0, $perPage = 3)
-{
-    $con = new mysqli("localhost", "root", "", "fspdb");
-    $sql = "SELECT c.idcerita, c.judul, u.nama FROM cerita as c INNER JOIN users as u on c.idusers = u.idusers WHERE judul LIKE ? LIMIT ?, ?";
-    $statement = $con->prepare($sql);
-    $statement->bind_param("sii", $search, $start, $perPage);
-    $statement->execute();
-    $result = $statement->get_result();
-
-    return $result;
-}
-
 $checkSearch = $search;
 
 if ($search == '') {
     $checkSearch = "%";
 }
 
-$result = getMovie($checkSearch);
+$story = new Cerita();
+$result = $story->getStory($checkSearch);
 $totalData = $result->num_rows;
 $totalPage = ceil($totalData / $perPage);
 ?>
@@ -81,11 +58,11 @@ $totalPage = ceil($totalData / $perPage);
        
         if ($search != '') {
             $search = $_GET['search'];
-            $searchquery = '%'.$search.'%';
-            $result = getMovieLimit($searchquery, $start, $perPage);
+            $search = '%'.$search.'%';
+            $result = $story->getStoryLimit($search, $start, $perPage);
         } else {
             $search = '%';
-            $result = getMovieLimit($search, $start, $perPage);
+            $result = $story->getStoryLimit($search, $start, $perPage);
         }
 
         while ($cerita = $result->fetch_assoc()) {
