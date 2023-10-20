@@ -1,17 +1,13 @@
 <?php
-
-class Users{
+require_once("connect.php");
+class Users extends Connect{
     private $username;
     private $password;
-    private $con;
     public function __construct($user, $pass)
     {
         $this->username=$user;
         $this->password=$pass;
-        $this->con = new mysqli("localhost", "root", "mysql", "fspdb");
-        if ($this->con->connect_errno) {
-            die("Failed to connect to MySQL: " . $this->con->connect_errno);
-        }
+        parent::__construct();
     }
 
     public function login(){

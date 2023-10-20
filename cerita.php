@@ -1,7 +1,7 @@
 <?php
-class Cerita{
+require("connect.php");
+class Cerita extends Connect{
 
-    private $con;
     private $idcerita;
     private $title;
     private $iduser;
@@ -12,6 +12,7 @@ class Cerita{
         $this->idcerita = $idcerita;
         $this->title = $title;
         $this->iduser = $iduser;
+        parent::__construct();
     }
 
     public function getStory($search = "%")
@@ -28,9 +29,8 @@ class Cerita{
 
     function getStoryLimit($search = "%", $start = 0, $perPage = 3)
     {
-        $con = new mysqli("localhost", "root", "mysql", "fspdb");
         $sql = "SELECT c.idcerita, c.judul, u.nama FROM cerita as c INNER JOIN users as u on c.idusers = u.idusers WHERE judul LIKE ? order by idcerita LIMIT ?, ?";
-        $statement = $con->prepare($sql);
+        $statement = $this->con->prepare($sql);
         $statement->bind_param("sii", $search, $start, $perPage);
         $statement->execute();
         $result = $statement->get_result();
