@@ -58,8 +58,8 @@ $totalPage = ceil($totalData / $perPage);
        
         if ($search != '') {
             $search = $_GET['search'];
-            $search = '%'.$search.'%';
-            $result = $story->getStoryLimit($search, $start, $perPage);
+            $searchquery = '%'.$search.'%';
+            $result = $story->getStoryLimit($searchquery, $start, $perPage);
         } else {
             $search = '%';
             $result = $story->getStoryLimit($search, $start, $perPage);
