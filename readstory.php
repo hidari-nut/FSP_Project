@@ -1,5 +1,5 @@
 <?php
-require("cerita.php");
+require("class/cerita.php");
 session_start();
 
 if (!isset($_GET['idcerita'])) {

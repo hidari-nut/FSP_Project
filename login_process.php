@@ -1,5 +1,5 @@
 <?php
-require("users.php");
+require("class/users.php");
 session_start();
 
 if (isset($_POST['submit'])) {

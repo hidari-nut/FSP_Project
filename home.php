@@ -1,5 +1,5 @@
 <?php
-require("cerita.php");
+require("class/cerita.php");
 session_start();
 
 $perPage = 3;
@@ -40,7 +40,7 @@ $totalPage = ceil($totalData / $perPage);
 <div class="container">
     <form action="home.php" method="get">
         Search Title: <input type="text" name="search">
-        <input type="submit" name="submit" value="search">
+        <input type="submit" name="submit" value="Search">
     </form>
 
     <form action="insertstory.php" method="get">

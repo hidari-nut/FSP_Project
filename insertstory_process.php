@@ -1,5 +1,5 @@
 <?php
-require_once("cerita.php");
+require_once("class/cerita.php");
 session_start();
 
 if (!isset($_POST['post'])) {

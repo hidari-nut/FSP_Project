@@ -1,5 +1,5 @@
 <?php
-require_once("connect.php");
+require_once("class/connect.php");
 ?>
 <link rel="stylesheet" href="style.css">
 <div class="container">
