@@ -11,12 +11,12 @@ $( document ).ready(function() {
 
 $("#kategori").change(function () { 
     if($(this).val() == "ceritaku"){
-        $(".ceritaku").fadeIn();
-        $(".kumpulan").fadeOut();
+        $("#ceritaku").attr("class", "ceritaku")
+        $("#kumpulan").attr("class", "hide")
     }
     if($(this).val() == "kumpulan"){
-        $(".kumpulan").fadeIn();
-        $(".ceritaku").fadeOut();
+        $("#kumpulan").attr("class", "kumpulan")
+        $("#ceritaku").attr("class", "hide")
     }
 });
 
