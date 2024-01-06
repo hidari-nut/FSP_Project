@@ -52,6 +52,10 @@ p {
     display: default;
 }
 
+.hide{
+    display: block;
+}
+
 @media all and (max-width:1023px) {
     .title {
         text-align: center;
@@ -89,5 +93,9 @@ p {
         display: grid;
         grid-template-columns: 45% 45%;
         grid-gap: 1em;
+    }
+
+    .hide{
+        display: none;
     }
 }

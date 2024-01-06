@@ -33,14 +33,14 @@
     </div>
 
     <div class="container">
-        <div class="ceritaku">
+        <div id="ceritaku">
             <h2>Ceritaku</h2>
             <div class="cer-container">
 
             </div>
             <button id="tampilUser">Tampilkan cerita selanjutnya</button>
         </div>
-        <div class="kumpulan">
+        <div id="kumpulan" class="hide">
             <h2>Kumpulan Cerita</h2>
             <div class="kum-container">
 

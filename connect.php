@@ -4,7 +4,7 @@
         protected $con;
         public function __construct()
         {
-            $this->con = new mysqli("localhost", "root", "", "fspuas");
+            $this->con = new mysqli("localhost", "root", "mysql", "fspuas");
             if ($this->con->connect_errno) {
                 die("Failed to connect to MySQL: " . $this->con->connect_errno);
             }  
